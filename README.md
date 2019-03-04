@@ -1,0 +1,2 @@
+# kennedy.dev
+Personal webpage
