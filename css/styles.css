@@ -9,6 +9,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #2d2d2d;
+    color: #e7e8eb;
+  }
+
+  a {
+    color: #81c4f8;
+  }
+}
 header {
   grid-area: header;
 }
@@ -64,6 +74,11 @@ header, footer {
   color: #000;
 }
 
+@media (prefers-color-scheme: dark) {
+  .social a {
+    color: #e7e8eb;
+  }
+}
 .nav-links li {
   display: inline-block;
 }
@@ -83,11 +98,18 @@ header, footer {
   margin-bottom: 3px;
   border: 1px #a4acbd solid;
   border-radius: 3px;
-  color: #efefef;
-  background-color: #888d98;
+  color: #111;
+  background-color: #EEE;
   cursor: default;
 }
 
+@media (prefers-color-scheme: dark) {
+  .skills li {
+    background-color: #43525f;
+    color: #cde1ee;
+    border-color: #cde1ee;
+  }
+}
 .apps li {
   margin-bottom: 3px;
 }
@@ -95,5 +117,3 @@ header, footer {
   border-radius: 5px;
   height: 25px;
 }
-
-/*# sourceMappingURL=styles.css.map */
