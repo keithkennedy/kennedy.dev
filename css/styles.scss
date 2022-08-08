@@ -5,11 +5,11 @@ $dark-bg: #2d2d2d;
 $dark-a: #81c4f8;
 
 body {
-  font: 1em "Open Sans", "Avenir", Helvetica, Arial, sans-serif;
+  font: 1.4em "Open Sans", "Avenir", Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
   color: #353942;
-  background: #EEE;
+  background: #eee;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,7 +19,7 @@ body {
     background-color: $dark-bg;
     color: $dark-color;
   }
-  
+
   a {
     color: $dark-a;
   }
@@ -29,13 +29,13 @@ header {
   grid-area: header;
 }
 
-.main {
+main {
   margin: 0 2px;
   grid-area: content;
 }
 
 .sidebar {
-    grid-area: sidebar;
+  grid-area: sidebar;
 }
 
 footer {
@@ -50,15 +50,17 @@ footer {
   /* max-width: 800px; */
   max-width: 670px;
   margin: auto;
-  
+
   .sidebar {
     margin: auto;
   }
 
-  .main p {
-    padding: 10px;
+  main {
+    text-align: center;
+    p {
+      padding: 10px;
+    }
   }
-  
 }
 
 @media (min-width: 550px) {
@@ -70,10 +72,13 @@ footer {
 
 .profile {
   border-radius: 50%;
+  margin: 2px 5px;
+  padding: 5px;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.9);
 }
 
-header, footer {
+header,
+footer {
   margin: auto;
   text-align: center;
 }
