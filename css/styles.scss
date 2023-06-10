@@ -84,11 +84,13 @@ footer {
 }
 
 .social {
-  font-size: 2em;
-
   a {
     text-decoration: none;
     color: #000;
+    
+    img {
+	    width: 0.8em;
+    }
   }
 }
 
