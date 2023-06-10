@@ -77,7 +77,8 @@ footer {
   color: #000;
 }
 .social a img {
-  width: 0.8em;
+  width: 1.6em;
+  padding: 0.1em;
 }
 
 @media (prefers-color-scheme: dark) {
