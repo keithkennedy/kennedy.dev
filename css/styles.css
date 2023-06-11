@@ -76,9 +76,14 @@ footer {
   text-decoration: none;
   color: #000;
 }
-.social a img {
+.social a svg {
   width: 1.6em;
   padding: 0.1em;
+}
+@media (prefers-color-scheme: dark) {
+  .social a svg {
+    fill: #e7e8eb;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
