@@ -66,13 +66,14 @@ function headerCell(text, colspan) {
     var cell = document.createElement("th");
     cell.textContent = text;
     cell.colSpan = colspan || 1;
+    cell.style.textAlign = "left";
     return cell;
 }
 
-function tableCell(text, className) {
+function tableCell(text, align) {
     var cell = document.createElement("td");
     cell.textContent = text;
-    if (className) cell.classList.add(className);
+    if (align) cell.style.textAlign = align;
     return cell;
 };
 
@@ -94,12 +95,12 @@ function generateTable(event) {
 
     event.results.forEach(result => {
         var row = document.createElement("tr");
-        row.appendChild(tableCell(result.position, "position"));
+        row.appendChild(tableCell(result.position, "right"));
         row.appendChild(tableCell(result.participantNumber));
         row.appendChild(tableCell(result.forename));
         row.appendChild(tableCell(result.surname));
         row.appendChild(tableCell(result.club));
-        row.appendChild(tableCell(result.time, "time"));
+        row.appendChild(tableCell(result.time, "right"));
         table.appendChild(row);
     });
 
