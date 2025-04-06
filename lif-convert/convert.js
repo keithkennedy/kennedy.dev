@@ -83,8 +83,9 @@ function generateTable(event) {
 
     var eventRow = document.createElement("tr");
     eventRow.appendChild(headerCell(event.name, 3));
-    if (event.windDirection) eventRow.appendChild(headerCell(event.windDirection));
-    if (event.windStrength) eventRow.appendChild(headerCell(event.windStrength));
+    if (event.windStrength && event.windDirection) {
+        eventRow.appendChild(headerCell(event.windStrength + " " + event.windDirection));
+    }
     table.appendChild(eventRow);
 
     var headers = ["Pos", "Num", "Forename(s)", "Surname", "Club", "Time"];
