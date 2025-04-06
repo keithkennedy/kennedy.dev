@@ -79,22 +79,31 @@ function tableCell(text, align) {
 
 function generateTable(event) {
     var table = document.createElement("table");
-    var headerRow = document.createElement("tr");
+    table.classList.add("table", "table-striped");
 
+    var thead = document.createElement("thead");
     var eventRow = document.createElement("tr");
-    eventRow.appendChild(headerCell(event.name, 3));
+    
     if (event.windStrength && event.windDirection) {
-        eventRow.appendChild(headerCell(event.windStrength + " " + event.windDirection));
+        eventRow.appendChild(headerCell(event.name, 3));
+        eventRow.appendChild(headerCell(event.windStrength + " " + event.windDirection, 3));
+    } else {
+        eventRow.appendChild(headerCell(event.name, 6));
     }
-    table.appendChild(eventRow);
 
+    thead.appendChild(eventRow);
+
+    var headerRow = document.createElement("tr");
     var headers = ["Pos", "Num", "Forename(s)", "Surname", "Club", "Time"];
     headers.forEach(headerText => {
         headerRow.appendChild(headerCell(headerText));
     });
-    table.appendChild(headerRow);
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    var tbody = document.createElement("tbody");
 
     event.results.forEach(result => {
+        if (!result.position) return;
         var row = document.createElement("tr");
         row.appendChild(tableCell(result.position, "right"));
         row.appendChild(tableCell(result.participantNumber));
@@ -102,9 +111,9 @@ function generateTable(event) {
         row.appendChild(tableCell(result.surname));
         row.appendChild(tableCell(result.club));
         row.appendChild(tableCell(result.time, "right"));
-        table.appendChild(row);
+        tbody.appendChild(row);
     });
-
+    table.appendChild(tbody);
     return table;
 };
 
