@@ -5,8 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     convertButton.onclick = function () {
         var lifText = lifInput.value;
         var eventData = Papa.parse(lifText);
-        console.log(eventData);
-        console.log(convertToEvent(eventData));
 
         var table = generateTable(convertToEvent(eventData));
         output.innerHTML = "";
@@ -71,6 +69,13 @@ function headerCell(text, colspan) {
     return cell;
 }
 
+function tableCell(text, colspan) {
+    var cell = document.createElement("td");
+    cell.textContent = text;
+    cell.colSpan = colspan || 1;
+    return cell;
+};
+
 function generateTable(event) {
     var table = document.createElement("table");
     var headerRow = document.createElement("tr");
@@ -81,7 +86,7 @@ function generateTable(event) {
     if (event.windStrength) eventRow.appendChild(headerCell(event.windStrength));
     table.appendChild(eventRow);
 
-    var headers = ["Position", "Participant Number", "Surname", "Forename", "Club", "Time"];
+    var headers = ["Pos", "Num", "Forename(s)", "Surname", "Club", "Time"];
     headers.forEach(headerText => {
         headerRow.appendChild(headerCell(headerText));
     });
@@ -89,11 +94,12 @@ function generateTable(event) {
 
     event.results.forEach(result => {
         var row = document.createElement("tr");
-        Object.values(result).forEach(text => {
-            var cell = document.createElement("td");
-            cell.textContent = text;
-            row.appendChild(cell);
-        });
+        row.appendChild(tableCell(result.position);
+        row.appendChild(tableCell(result.participantNumber);
+        row.appendChild(tableCell(result.forname);
+        row.appendChild(tableCell(result.surname);
+        row.appendChild(tableCell(result.club);
+        row.appendChild(tableCell(result.time);
         table.appendChild(row);
     });
 
