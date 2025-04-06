@@ -94,12 +94,12 @@ function generateTable(event) {
 
     event.results.forEach(result => {
         var row = document.createElement("tr");
-        row.appendChild(tableCell(result.position);
-        row.appendChild(tableCell(result.participantNumber);
-        row.appendChild(tableCell(result.forname);
-        row.appendChild(tableCell(result.surname);
-        row.appendChild(tableCell(result.club);
-        row.appendChild(tableCell(result.time);
+        row.appendChild(tableCell(result.position));
+        row.appendChild(tableCell(result.participantNumber));
+        row.appendChild(tableCell(result.forename));
+        row.appendChild(tableCell(result.surname));
+        row.appendChild(tableCell(result.club));
+        row.appendChild(tableCell(result.time));
         table.appendChild(row);
     });
 

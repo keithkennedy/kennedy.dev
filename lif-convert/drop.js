@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   dropZone.addEventListener('drop', (e) => {
     dropZone.style.border = '';
     const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('text')) {
+    if (file) {
       const reader = new FileReader();
       reader.onload = function(event) {
         dropZone.value = event.target.result;
