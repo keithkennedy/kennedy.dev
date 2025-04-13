@@ -10,12 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
         output.innerHTML = "";
         output.appendChild(table);
     };
-
-    clear.onclick = function () {
-        lifInput.value = "";
-        output.innerHTML = "";
-    };
 });
+
+function reset() {
+    let lifInput = document.getElementById("lifInput");
+    let output = document.getElementById("output");
+    lifInput.value = "";
+    output.innerHTML = "";
+}
   
 function convertToEvent(eventData) {
     if (eventData.errors.length > 0) {
@@ -26,10 +28,10 @@ function convertToEvent(eventData) {
     var event = getEventDetails(eventData);
     event.results = getResults(eventData);
     return event;
-};
+}
 
 function getEventDetails(eventData) {
-    var event = {
+    let event = {
         name: eventData.data[0][3]
     };
 
@@ -41,12 +43,12 @@ function getEventDetails(eventData) {
     }
 
     return event;
-};
+}
 
 function getResults(eventData) {
     var results = [];
     eventData.data.forEach((element, index) => {
-        if (index == 0) return;
+        if (index === 0) return;
 
         var result = {
             position: element[0],
@@ -60,10 +62,10 @@ function getResults(eventData) {
         results.push(result);
     });
     return results;
-};
+}
 
 function headerCell(text, colspan) {
-    var cell = document.createElement("th");
+    const cell = document.createElement("th");
     cell.textContent = text;
     cell.colSpan = colspan || 1;
     cell.style.textAlign = "left";
@@ -75,11 +77,11 @@ function tableCell(text, align) {
     cell.textContent = text;
     if (align) cell.style.textAlign = align;
     return cell;
-};
+}
 
 function generateTable(event) {
     var table = document.createElement("table");
-    table.classList.add("table", "table-striped");
+    table.classList.add("table");
 
     var thead = document.createElement("thead");
     var eventRow = document.createElement("tr");
@@ -115,11 +117,17 @@ function generateTable(event) {
     });
     table.appendChild(tbody);
     return table;
-};
+}
 
-function copyTableAsHTML() {
+function copyTable() {
     const table = document.getElementsByTagName("table")[0];
+    if (!table) return;
+
     const html = table.outerHTML;
+
+    if (html.trim() === "") {
+        return;
+    }
 
     // Use Clipboard API to write HTML
     navigator.clipboard.write([
@@ -128,8 +136,50 @@ function copyTableAsHTML() {
         "text/plain": new Blob([table.innerText], { type: "text/plain" })
         })
     ]).then(() => {
-        alert("Table copied with formatting!");
+        showCopied(document.getElementById("copy"));
     }).catch(err => {
         console.error("Failed to copy: ", err);
     });
-};
+}
+
+function copyNums() {
+    copyColumnToClipboard(1, "copyNums")
+}
+
+function copyTimes() {
+    copyColumnToClipboard(5, "copyTimes")
+}
+
+function copyColumnToClipboard(colIndex, buttonId) {
+    const table = document.getElementsByTagName("table")[0];
+    if (!table) return;
+
+    let columnData = [];
+
+    for (let row of table.rows) {
+        const cells = row.querySelectorAll("td");
+        if (cells.length > colIndex) {
+            columnData.push(cells[colIndex].innerText.trim());
+        }
+    }
+
+    const textToCopy = columnData.join("\n");
+
+    navigator.clipboard.writeText(textToCopy)
+        .then(() => showCopied(document.getElementById(buttonId)))
+        .catch(err => console.error("Copy failed: ", err));
+}
+
+function showCopied(copyButton) {
+    let ori = copyButton.innerHTML;
+    let i = copyButton.querySelectorAll("i")[0];
+    i.classList.remove("fa-copy");
+    i.classList.add("fa-circle-check");
+    let textSpan = copyButton.querySelectorAll("span")[1];
+    textSpan.innerHTML = "Copied";
+    copyButton.setAttribute("disabled", "disabled");
+    setTimeout(() => {
+        copyButton.innerHTML = ori;
+        copyButton.removeAttribute("disabled");
+    }, 2000);
+}
