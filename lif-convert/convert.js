@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-    var lifInput = document.getElementById("lifInput");
-    var convertButton = document.getElementById("convertButton");
-    var output = document.getElementById("output");
+    let lifInput = document.getElementById("lifInput");
+    let convertButton = document.getElementById("convertButton");
+    let output = document.getElementById("output");
     convertButton.onclick = function () {
-        var lifText = lifInput.value;
-        var eventData = Papa.parse(lifText);
+        let lifText = lifInput.value;
+        let eventData = Papa.parse(lifText);
 
-        var table = generateTable(convertToEvent(eventData));
+        let table = generateTable(convertToEvent(eventData));
         output.innerHTML = "";
         output.appendChild(table);
     };
@@ -25,7 +25,7 @@ function convertToEvent(eventData) {
         return;
     }
 
-    var event = getEventDetails(eventData);
+    let event = getEventDetails(eventData);
     event.results = getResults(eventData);
     return event;
 }
@@ -46,11 +46,11 @@ function getEventDetails(eventData) {
 }
 
 function getResults(eventData) {
-    var results = [];
+    let results = [];
     eventData.data.forEach((element, index) => {
         if (index === 0) return;
 
-        var result = {
+        let result = {
             position: element[0],
             participantNumber: element[1],
             surname: element[3],
@@ -65,7 +65,7 @@ function getResults(eventData) {
 }
 
 function headerCell(text, colspan) {
-    const cell = document.createElement("th");
+    let cell = document.createElement("th");
     cell.textContent = text;
     cell.colSpan = colspan || 1;
     cell.style.textAlign = "left";
@@ -73,18 +73,18 @@ function headerCell(text, colspan) {
 }
 
 function tableCell(text, align) {
-    var cell = document.createElement("td");
+    let cell = document.createElement("td");
     cell.textContent = text;
     if (align) cell.style.textAlign = align;
     return cell;
 }
 
 function generateTable(event) {
-    var table = document.createElement("table");
+    let table = document.createElement("table");
     table.classList.add("table");
 
-    var thead = document.createElement("thead");
-    var eventRow = document.createElement("tr");
+    let thead = document.createElement("thead");
+    let eventRow = document.createElement("tr");
     
     if (event.windStrength && event.windDirection) {
         eventRow.appendChild(headerCell(event.name, 3));
@@ -95,18 +95,18 @@ function generateTable(event) {
 
     thead.appendChild(eventRow);
 
-    var headerRow = document.createElement("tr");
-    var headers = ["Pos", "Num", "Forename(s)", "Surname", "Club", "Time"];
+    let headerRow = document.createElement("tr");
+    let headers = ["Pos", "Num", "Forename(s)", "Surname", "Club", "Time"];
     headers.forEach(headerText => {
         headerRow.appendChild(headerCell(headerText));
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
-    var tbody = document.createElement("tbody");
+    let tbody = document.createElement("tbody");
 
     event.results.forEach(result => {
         if (!result.position) return;
-        var row = document.createElement("tr");
+        let row = document.createElement("tr");
         row.appendChild(tableCell(result.position, "right"));
         row.appendChild(tableCell(result.participantNumber));
         row.appendChild(tableCell(result.forename));
@@ -120,7 +120,7 @@ function generateTable(event) {
 }
 
 function copyTable() {
-    const table = document.getElementsByTagName("table")[0];
+    let table = document.getElementsByTagName("table")[0];
     if (!table) return;
 
     const html = table.outerHTML;
@@ -142,6 +142,18 @@ function copyTable() {
     });
 }
 
+function getColumnData(colIndex) {
+    const table = document.getElementsByTagName("table")[0];
+    let columnData = [];
+    for (let row of table.rows) {
+        const cells = row.querySelectorAll("td");
+        if (cells.length > colIndex) {
+            columnData.push(cells[colIndex].innerText.trim());
+        }
+    }
+    return columnData
+}
+
 function copyNums() {
     copyColumnToClipboard(1, "copyNums")
 }
@@ -150,27 +162,40 @@ function copyTimes() {
     copyColumnToClipboard(5, "copyTimes")
 }
 
+function copyYdlFormattedLongTimes() {
+    // a time can be formatted as 2:23.45
+    // YDL file requires this as 2.2345
+
+    let data = getColumnData(5);
+    let f = data.map(data => {
+        return data.replace(".", "").replace(":", ".");
+    })
+
+    const textToCopy = f.join("\n");
+    navigator.clipboard.writeText(textToCopy)
+        .then(() => showCopied(document.getElementById("copyTimesYdl")))
+        .catch(err => console.error("Copy failed: ", err));
+}
+
 function copyColumnToClipboard(colIndex, buttonId) {
     const table = document.getElementsByTagName("table")[0];
     if (!table) return;
 
-    let columnData = [];
-
-    for (let row of table.rows) {
-        const cells = row.querySelectorAll("td");
-        if (cells.length > colIndex) {
-            columnData.push(cells[colIndex].innerText.trim());
-        }
-    }
-
+    let columnData = getColumnData(colIndex);
     const textToCopy = columnData.join("\n");
 
     navigator.clipboard.writeText(textToCopy)
         .then(() => showCopied(document.getElementById(buttonId)))
         .catch(err => console.error("Copy failed: ", err));
+
+    return columnData;
 }
 
 function showCopied(copyButton) {
+    if (!copyButton) {
+        return;
+    }
+
     let ori = copyButton.innerHTML;
     let i = copyButton.querySelectorAll("i")[0];
     i.classList.remove("fa-copy");
