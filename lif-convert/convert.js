@@ -1,16 +1,13 @@
-document.addEventListener("DOMContentLoaded", function () {
+function addResults() {
     let lifInput = document.getElementById("lifInput");
-    let convertButton = document.getElementById("convertButton");
-    let output = document.getElementById("output");
-    convertButton.onclick = function () {
-        let lifText = lifInput.value;
-        let eventData = Papa.parse(lifText);
+    let lifText = lifInput.value;
+    let eventData = Papa.parse(lifText);
+    let table = generateTable(convertToEvent(eventData));
 
-        let table = generateTable(convertToEvent(eventData));
-        output.innerHTML = "";
-        output.appendChild(table);
-    };
-});
+    let output = document.getElementById("output");
+    output.innerHTML = "";
+    output.appendChild(table);
+}
 
 function reset() {
     let lifInput = document.getElementById("lifInput");
