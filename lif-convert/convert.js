@@ -165,13 +165,11 @@ function copyTimes() {
 function copyYdlFormattedLongTimes() {
     // a time can be formatted as 2:23.45
     // YDL file requires this as 2.2345
-
     let data = getColumnData(5);
-    let f = data.map(data => {
+    let ydlFormattedTimes = data.map(data => {
         return data.replace(".", "").replace(":", ".");
-    })
-
-    const textToCopy = f.join("\n");
+    });
+    const textToCopy = ydlFormattedTimes.join("\n");
     navigator.clipboard.writeText(textToCopy)
         .then(() => showCopied(document.getElementById("copyTimesYdl")))
         .catch(err => console.error("Copy failed: ", err));
