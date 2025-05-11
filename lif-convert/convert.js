@@ -2,8 +2,11 @@ function addResults() {
     let lifInput = document.getElementById("lifInput");
     let lifText = lifInput.value;
     let eventData = Papa.parse(lifText);
-    let table = generateTable(convertToEvent(eventData));
-
+    let options = {
+        displayMedals: document.getElementById('displayMedals').checked,
+    }
+    let event = convertToEvent(eventData);
+    let table = generateTable(event, options);
     let output = document.getElementById("output");
     output.innerHTML = "";
     output.appendChild(table);
@@ -59,6 +62,36 @@ function getResults(eventData) {
 
         results.push(result);
     });
+
+    // 1. Group by ageGroup
+    const grouped = results.reduce((acc, obj) => {
+        (acc[obj.ageGroup] = acc[obj.ageGroup] || []).push(obj);
+        return acc;
+    }, {});
+
+    // 2. Sort each group and take 3
+    const topThreePerGroup = Object.fromEntries(
+        Object.entries(grouped).map(([group, entries]) => [
+            group,
+            function() {
+                const topThree = entries.filter(a => a.time !== "").sort((a, b) => a.time - b.time).slice(0, 3)
+                topThree.forEach((element, index) => {
+                    if (index === 0) {
+                        element.medal = "🥇";
+                    }
+                    if (index === 1) {
+                        element.medal = "🥈";
+                    }
+                    if (index === 2) {
+                        element.medal = "🥉";
+                    }
+                });
+                return topThree;
+            }()
+        ])
+    );
+    console.log(topThreePerGroup);
+
     return results;
 }
 
@@ -77,7 +110,7 @@ function tableCell(text, align) {
     return cell;
 }
 
-function generateTable(event) {
+function generateTable(event, options) {
     let table = document.createElement("table");
     table.classList.add("table");
 
@@ -105,7 +138,14 @@ function generateTable(event) {
     event.results.forEach(result => {
         if (!result.position) return;
         let row = document.createElement("tr");
-        row.appendChild(tableCell(result.position, "right"));
+
+        let pos;
+        if (options.displayMedals && result.medal) {
+            pos = result.medal + " " + result.position;
+        } else {
+            pos = result.position;
+        }
+        row.appendChild(tableCell(pos, "right"));
         row.appendChild(tableCell(result.participantNumber));
         row.appendChild(tableCell(result.forename));
         row.appendChild(tableCell(result.surname));
