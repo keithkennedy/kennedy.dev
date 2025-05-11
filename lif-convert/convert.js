@@ -53,7 +53,8 @@ function getResults(eventData) {
             surname: element[3],
             forename: element[4],
             club: element[5],
-            time: element[6]
+            time: element[6],
+            ageGroup: element[14]
         };
 
         results.push(result);
@@ -85,15 +86,15 @@ function generateTable(event) {
     
     if (event.windStrength && event.windDirection) {
         eventRow.appendChild(headerCell(event.name, 3));
-        eventRow.appendChild(headerCell(event.windStrength + " " + event.windDirection, 3));
+        eventRow.appendChild(headerCell(event.windStrength + " " + event.windDirection, 4));
     } else {
-        eventRow.appendChild(headerCell(event.name, 6));
+        eventRow.appendChild(headerCell(event.name, 7));
     }
 
     thead.appendChild(eventRow);
 
     let headerRow = document.createElement("tr");
-    let headers = ["Pos", "Num", "Forename(s)", "Surname", "Club", "Time"];
+    let headers = ["Pos", "Num", "Forename(s)", "Surname", "Club", "Time", "Age Group"];
     headers.forEach(headerText => {
         headerRow.appendChild(headerCell(headerText));
     });
@@ -110,6 +111,7 @@ function generateTable(event) {
         row.appendChild(tableCell(result.surname));
         row.appendChild(tableCell(result.club));
         row.appendChild(tableCell(result.time, "right"));
+        row.appendChild(tableCell(result.ageGroup));
         tbody.appendChild(row);
     });
     table.appendChild(tbody);
