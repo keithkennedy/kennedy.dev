@@ -86,7 +86,7 @@ function generateTable(event) {
     
     if (event.windStrength && event.windDirection) {
         eventRow.appendChild(headerCell(event.name, 3));
-        eventRow.appendChild(headerCell(event.windStrength + " " + event.windDirection, 4));
+        eventRow.appendChild(headerCell("Wind: " + event.windStrength + " " + event.windDirection, 4));
     } else {
         eventRow.appendChild(headerCell(event.name, 7));
     }
