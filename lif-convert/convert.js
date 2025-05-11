@@ -1,3 +1,16 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const ydlOptionsCheckbox = document.getElementById("enableYdl");
+    ydlOptionsCheckbox.addEventListener("change", function () {
+        document.querySelectorAll('.ydl-control').forEach(function(button) {
+            if (ydlOptionsCheckbox.checked) {
+                button.classList.remove("is-hidden");
+            } else {
+                button.classList.add("is-hidden");
+            }
+        })
+    })
+});
+
 function addResults() {
     let lifInput = document.getElementById("lifInput");
     let lifText = lifInput.value;
