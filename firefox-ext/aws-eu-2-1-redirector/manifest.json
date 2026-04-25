@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "AWS EU West 2 to 1 Redirector",
+  "version": "1.0",
+  "description": "Automatically redirects eu-west-2 URLs to eu-west-1",
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "*://*.console.aws.amazon.com/*"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "aws-eu-west-2-to-1-redirector@dev.kennedy",
+      "data_collection_permissions": {
+        "required": ["none"],
+        "optional": []
+      }
+    }
+  }
+}
