@@ -1,8 +1,23 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
-
 $dark-color: #e7e8eb;
 $dark-bg: #2d2d2d;
 $dark-a: #81c4f8;
+
+:root {
+  --focus-ring: #0b63a3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --focus-ring: #81c4f8;
+  }
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
 
 body {
   font: 1.4em "Open Sans", "Avenir", Helvetica, Arial, sans-serif;
@@ -84,17 +99,33 @@ footer {
 }
 
 .social {
+  ul {
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+  }
+
   a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
     color: #000;
-    
+
     svg {
       width: 1.6em;
-	  padding: 0.1em;
-	    
-	  @media (prefers-color-scheme: dark) {
-	    fill: $dark-color;
-	  }
+      padding: 0.1em;
+
+      @media (prefers-color-scheme: dark) {
+        fill: $dark-color;
+      }
     }
   }
 }
